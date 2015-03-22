@@ -1,12 +1,22 @@
-<html>
- <head>
-<script type="text/javascript" language="javascript" src="jquery-1.8.2.min.js"></script>        
-
-<script type="text/javascript">
-    $(document).ready(function(e) {
-    $.getJSON( "people.json" , function( result ){
-        alert(result.start.count);
-    });
-});
-</script></head>
-</html>
+{
+   "person": [
+       {
+           "firstName": "Clark",
+           "lastName": "Kent",
+           "job": "Reporter",
+           "roll": 20
+       },
+       {
+           "firstName": "Bruce",
+           "lastName": "Wayne",
+           "job": "Playboy",
+           "roll": 30
+       },
+       {
+           "firstName": "Peter",
+           "lastName": "Parker",
+           "job": "Photographer",
+           "roll": 40
+       }
+   ]
+}
