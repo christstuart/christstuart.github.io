@@ -1,47 +1,191 @@
-{
-   "person": [
-       {
-           "firstName": "Tommy",
-           "lastName": "Kent",
-           "job": "Damel",
-           "roll": "fb://profile?id=467400929948259",
-           "image": "https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/11073052_10152746723135918_6035256168829200954_n.jpg?oh=d117761b7431007ea5aac96f353e10dd&oe=55AB38ED&__gda__=1433666811_35ef529fefb6db2d762980c2d1be0a35"
-        },
-        {
-           "job": "Damel",
-            "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/11073052_10152746723135918_6035256168829200954_n.jpg?oh=d117761b7431007ea5aac96f353e10dd&oe=55AB38ED&__gda__=1433666811_35ef529fefb6db2d762980c2d1be0a35"
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Racing Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Cargando Juego...</h2>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+            <p class="loading-percentage">0%</p>
+        </div>
+    </div>
 
-       },
-       {
-           "firstName": "Bruce",
-           "lastName": "Wayne",
-           "job": "Chris T Stuart",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11069909_10152737326225918_3861093348268245190_n.jpg?oh=14635b7a0e64eedcae4804d9df913fb3&oe=55B47C53&__gda__=1437309740_1d5ba2456577656a90340162223435ba"
-       },
-       {
-           "firstName": "Chris \nStuart",
-           "lastName": "Parker",
-           "job": "Tu",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://scontent-mia.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/11050166_10152726698295918_3351733604090035574_n.jpg?oh=153861875d99bf1ae57c59aba4b4aa17&oe=55B6484F",
-           "str": " "
-       },
-       {
-           "firstName": "Chris \nStuart",
-           "lastName": "Parker",
-           "job": "Julian",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://scontent-mia.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/11050166_10152726698295918_3351733604090035574_n.jpg?oh=153861875d99bf1ae57c59aba4b4aa17&oe=55B6484F",
-           "str": " "
-       },
-       {
-           "firstName": "Bruce",
-           "lastName": "Wayne",
-           "job": "Tommy",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11069909_10152737326225918_3861093348268245190_n.jpg?oh=14635b7a0e64eedcae4804d9df913fb3&oe=55B47C53&__gda__=1437309740_1d5ba2456577656a90340162223435ba"
-       }
-         ]
-}
+    <!-- Main Game Container -->
+    <div id="gameContainer" class="game-container">
+        <!-- Unity WebGL Canvas -->
+        <div id="unityContainer" class="unity-container">
+            <canvas id="unity-canvas"></canvas>
+        </div>
+
+        <!-- Game HUD Overlay -->
+        <div id="gameHUD" class="game-hud">
+            <!-- Top Bar -->
+            <div class="hud-top">
+                <div class="currency-display">
+                    <i class="fas fa-coins"></i>
+                    <span id="playerCurrency">0</span>
+                </div>
+                <div class="objective-display">
+                    <h3>Objetivo Actual:</h3>
+                    <p id="currentObjective">Cargando...</p>
+                </div>
+                <div class="timer-display">
+                    <i class="fas fa-clock"></i>
+                    <span id="timeRemaining">00:00</span>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="side-panel">
+                <button class="panel-button" onclick="toggleStore()">
+                    <i class="fas fa-store"></i>
+                    <span>Tienda</span>
+                </button>
+                <button class="panel-button" onclick="toggleCustomization()">
+                    <i class="fas fa-palette"></i>
+                    <span>Personalizar</span>
+                </button>
+                <button class="panel-button" onclick="toggleObjectives()">
+                    <i class="fas fa-list-check"></i>
+                    <span>Misiones</span>
+                </button>
+                <button class="panel-button" onclick="toggleSettings()">
+                    <i class="fas fa-cog"></i>
+                    <span>Ajustes</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Store Modal -->
+        <div id="storeModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-store"></i> Tienda</h2>
+                    <button class="close-button" onclick="toggleStore()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="store-tabs">
+                        <button class="tab-button active" onclick="switchStoreTab('avatars')">Avatares</button>
+                        <button class="tab-button" onclick="switchStoreTab('vehicles')">Vehículos</button>
+                        <button class="tab-button" onclick="switchStoreTab('resources')">Recursos</button>
+                    </div>
+                    <div id="storeItems" class="store-items-grid">
+                        <!-- Items will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customization Modal -->
+        <div id="customizationModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-palette"></i> Personalización</h2>
+                    <button class="close-button" onclick="toggleCustomization()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="customization-sections">
+                        <div class="custom-section">
+                            <h3>Avatar</h3>
+                            <div id="avatarOptions" class="custom-options">
+                                <!-- Avatar options will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="custom-section">
+                            <h3>Vehículo</h3>
+                            <div id="vehicleOptions" class="custom-options">
+                                <!-- Vehicle options will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Objectives Modal -->
+        <div id="objectivesModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-list-check"></i> Misiones y Objetivos</h2>
+                    <button class="close-button" onclick="toggleObjectives()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="objectivesList" class="objectives-list">
+                        <!-- Objectives will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-cog"></i> Ajustes</h2>
+                    <button class="close-button" onclick="toggleSettings()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>Audio</h3>
+                        <div class="setting-item">
+                            <label>Volumen de Música</label>
+                            <input type="range" id="musicVolume" min="0" max="100" value="50">
+                            <span id="musicVolumeValue">50%</span>
+                        </div>
+                        <div class="setting-item">
+                            <label>Efectos de Sonido</label>
+                            <input type="range" id="sfxVolume" min="0" max="100" value="50">
+                            <span id="sfxVolumeValue">50%</span>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Gráficos</h3>
+                        <div class="setting-item">
+                            <label>Calidad</label>
+                            <select id="graphicsQuality">
+                                <option value="low">Baja</option>
+                                <option value="medium" selected>Media</option>
+                                <option value="high">Alta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Overlay -->
+        <div id="tutorialOverlay" class="tutorial-overlay">
+            <div class="tutorial-content">
+                <h3 id="tutorialTitle">Tutorial</h3>
+                <p id="tutorialText">Bienvenido al juego!</p>
+                <button class="tutorial-button" onclick="nextTutorialStep()">
+                    Siguiente <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="UnityLoader.js"></script>
+    <script src="game-interface.js"></script>
+</body>
+</html>
