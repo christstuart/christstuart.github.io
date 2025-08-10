@@ -1,47 +1,987 @@
-{
-   "person": [
-       {
-           "firstName": "Tommy",
-           "lastName": "Kent",
-           "job": "Damel",
-           "roll": "fb://profile?id=467400929948259",
-           "image": "https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/11073052_10152746723135918_6035256168829200954_n.jpg?oh=d117761b7431007ea5aac96f353e10dd&oe=55AB38ED&__gda__=1433666811_35ef529fefb6db2d762980c2d1be0a35"
-        },
-        {
-           "job": "Damel",
-            "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/11073052_10152746723135918_6035256168829200954_n.jpg?oh=d117761b7431007ea5aac96f353e10dd&oe=55AB38ED&__gda__=1433666811_35ef529fefb6db2d762980c2d1be0a35"
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Avanzado - Interfaz Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-       },
-       {
-           "firstName": "Bruce",
-           "lastName": "Wayne",
-           "job": "Chris T Stuart",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11069909_10152737326225918_3861093348268245190_n.jpg?oh=14635b7a0e64eedcae4804d9df913fb3&oe=55B47C53&__gda__=1437309740_1d5ba2456577656a90340162223435ba"
-       },
-       {
-           "firstName": "Chris \nStuart",
-           "lastName": "Parker",
-           "job": "Tu",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://scontent-mia.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/11050166_10152726698295918_3351733604090035574_n.jpg?oh=153861875d99bf1ae57c59aba4b4aa17&oe=55B6484F",
-           "str": " "
-       },
-       {
-           "firstName": "Chris \nStuart",
-           "lastName": "Parker",
-           "job": "Julian",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://scontent-mia.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/11050166_10152726698295918_3351733604090035574_n.jpg?oh=153861875d99bf1ae57c59aba4b4aa17&oe=55B6484F",
-           "str": " "
-       },
-       {
-           "firstName": "Bruce",
-           "lastName": "Wayne",
-           "job": "Tommy",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11069909_10152737326225918_3861093348268245190_n.jpg?oh=14635b7a0e64eedcae4804d9df913fb3&oe=55B47C53&__gda__=1437309740_1d5ba2456577656a90340162223435ba"
-       }
-         ]
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .game-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel h2 {
+            margin-bottom: 15px;
+            color: #ffd700;
+            text-align: center;
+        }
+
+        .objective-display {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .objective-text {
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .objective-status {
+            font-weight: bold;
+            color: #4ade80;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+        }
+
+        .btn-info {
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+        }
+
+        .store-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .store-item-info {
+            flex: 1;
+        }
+
+        .store-item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .store-item-type {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .store-item-price {
+            font-weight: bold;
+            color: #ffd700;
+            margin-right: 10px;
+        }
+
+        .currency-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .customization-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-group {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .option-group h3 {
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .music-controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .volume-control {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .tutorial-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            z-index: 1000;
+        }
+
+        .tutorial-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transition: width 0.3s ease;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4ade80;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .avatar-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .avatar-option {
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .avatar-option:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar-option.selected {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .game-interface {
+                grid-template-columns: 1fr;
+            }
+            
+            .customization-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .music-track {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-name {
+            font-weight: bold;
+        }
+
+        .track-status {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .pitch-indicator {
+            width: 100px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+
+        .pitch-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Juego Avanzado - Interfaz Web</h1>
+            <p>Sistema completo de misiones, tienda, personalización y más</p>
+        </div>
+
+        <div class="game-stats">
+            <div class="stat-card">
+                <div class="stat-value" id="timeRemaining">300</div>
+                <div class="stat-label">Tiempo Restante</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="playerCurrency">1000</div>
+                <div class="stat-label">Monedas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="objectivesCompleted">0</div>
+                <div class="stat-label">Objetivos Completados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalPurchases">0</div>
+                <div class="stat-label">Compras Realizadas</div>
+            </div>
+        </div>
+
+        <div class="game-interface">
+            <!-- Panel de Objetivos -->
+            <div class="panel">
+                <h2>🎯 Sistema de Misiones</h2>
+                <div class="objective-display">
+                    <div class="objective-text" id="currentObjectiveText">
+                        Objetivo: Llegar a la oficina
+                    </div>
+                    <div class="objective-status" id="objectiveStatus">
+                        Estado: En progreso
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="objectiveProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn btn-success" onclick="startRandomObjective()">
+                        🎲 Nuevo Objetivo Aleatorio
+                    </button>
+                    <button class="btn btn-warning" onclick="completeObjective()">
+                        ✅ Completar Objetivo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel de Tienda -->
+            <div class="panel">
+                <h2>🛍️ Tienda y Monetización</h2>
+                <div class="currency-display">
+                    💰 <span id="currencyDisplay">1000</span> Monedas
+                </div>
+                <div id="storeItems">
+                    <!-- Los items se generarán dinámicamente -->
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn btn-info" onclick="refreshStore()">
+                        🔄 Actualizar Tienda
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel de Personalización -->
+            <div class="panel">
+                <h2>🎨 Personalización</h2>
+                <div class="customization-options">
+                    <div class="option-group">
+                        <h3>Avatar del Jugador</h3>
+                        <div class="avatar-selection" id="avatarSelection">
+                            <!-- Los avatares se generarán dinámicamente -->
+                        </div>
+                        <button class="btn btn-info" onclick="loadPlayerCustomization()">
+                            💾 Cargar Personalización
+                        </button>
+                    </div>
+                    <div class="option-group">
+                        <h3>Modelo de Vehículo</h3>
+                        <select id="vehicleSelect" onchange="selectVehicle(this.value)" style="width: 100%; padding: 8px; border-radius: 5px; border: none; background: rgba(0,0,0,0.3); color: white;">
+                            <option value="deportivo">🏎️ Deportivo</option>
+                            <option value="todoterreno">🚙 Todoterreno</option>
+                            <option value="clasico">🚗 Clásico</option>
+                            <option value="futurista">🚘 Futurista</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Música Dinámica -->
+            <div class="panel">
+                <h2>🎵 Sistema de Música Dinámica</h2>
+                <div class="music-controls">
+                    <div style="margin-bottom: 15px;">
+                        <label>🔊 Volumen Master:</label>
+                        <input type="range" class="volume-control" id="masterVolume" min="0" max="100" value="80" onchange="updateMasterVolume(this.value)">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label>🎼 Pitch Dinámico:</label>
+                        <div class="pitch-indicator">
+                            <div class="pitch-fill" id="pitchIndicator" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="musicTracks">
+                    <!-- Las pistas se generarán dinámicamente -->
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn btn-success" onclick="playScenarioMusic('tension')">
+                        ⚡ Música de Tensión
+                    </button>
+                    <button class="btn btn-info" onclick="playScenarioMusic('calma')">
+                        🌊 Música Relajante
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel de Tutorial -->
+            <div class="panel">
+                <h2>📚 Sistema de Tutorial</h2>
+                <div style="text-align: center;">
+                    <p id="tutorialStatus">Tutorial completado: No</p>
+                    <div style="margin: 15px 0;">
+                        <button class="btn btn-warning" onclick="startTutorial()">
+                            🎓 Iniciar Tutorial
+                        </button>
+                        <button class="btn btn-info" onclick="toggleTutorial()">
+                            ❔ Mostrar/Ocultar Ayuda
+                        </button>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="tutorialProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Control de Juego -->
+            <div class="panel">
+                <h2>🎮 Control del Juego</h2>
+                <div style="text-align: center;">
+                    <button class="btn btn-success" onclick="startNewGame()">
+                        🚀 Nuevo Juego
+                    </button>
+                    <button class="btn btn-warning" onclick="pauseGame()">
+                        ⏸️ Pausar/Reanudar
+                    </button>
+                    <button class="btn" onclick="resetGame()">
+                        🔄 Reiniciar Todo
+                    </button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h3>Estado del Juego:</h3>
+                    <p id="gameState">Esperando inicio...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Overlay -->
+    <div class="tutorial-overlay" id="tutorialOverlay" onclick="closeTutorial()"></div>
+    <div class="tutorial-panel" id="tutorialPanel">
+        <h2>📖 Tutorial del Juego</h2>
+        <div id="tutorialContent">
+            <p>Bienvenido al juego avanzado. Aquí aprenderás a usar todas las funcionalidades.</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-info" onclick="nextTutorialStep()">
+                ➡️ Siguiente
+            </button>
+            <button class="btn" onclick="closeTutorial()">
+                ❌ Cerrar
+            </button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Estado global del juego
+        let gameState = {
+            timeRemaining: 300,
+            playerCurrency: 1000,
+            objectivesCompleted: 0,
+            totalPurchases: 0,
+            currentObjective: null,
+            isPlaying: false,
+            isPaused: false,
+            musicPitch: 1.0,
+            tutorialStep: 0,
+            tutorialCompleted: false,
+            selectedAvatar: 'avatar1',
+            selectedVehicle: 'deportivo'
+        };
+
+        // Lista de objetivos posibles
+        const possibleObjectives = [
+            "Llegar a la oficina",
+            "Recoger 5 objetos especiales",
+            "Completar el circuito en menos de 2 minutos",
+            "Encontrar el tesoro escondido",
+            "Superar 3 obstáculos consecutivos",
+            "Alcanzar la velocidad máxima",
+            "Recolectar todas las monedas del nivel",
+            "Llegar al punto de control sin daños"
+        ];
+
+        // Items de la tienda
+        const storeItems = [
+            { id: 'avatar1', name: 'Avatar Guerrero', type: 'Avatar', price: 150 },
+            { id: 'avatar2', name: 'Avatar Mago', type: 'Avatar', price: 200 },
+            { id: 'vehicle1', name: 'Coche Deportivo', type: 'Vehicle', price: 500 },
+            { id: 'vehicle2', name: 'Moto Rápida', type: 'Vehicle', price: 300 },
+            { id: 'boost1', name: 'Impulso de Velocidad', type: 'Resource', price: 50 },
+            { id: 'shield1', name: 'Escudo Protector', type: 'Resource', price: 75 },
+            { id: 'coins1', name: 'Paquete de Monedas', type: 'Resource', price: 100 }
+        ];
+
+        // Pistas de música
+        const musicTracks = [
+            { name: 'Tema Principal', status: 'Detenido', pitch: 1.0 },
+            { name: 'Música de Acción', status: 'Detenido', pitch: 1.0 },
+            { name: 'Ambiente Relajante', status: 'Detenido', pitch: 1.0 },
+            { name: 'Tensión Épica', status: 'Detenido', pitch: 1.0 }
+        ];
+
+        // Mensajes del tutorial
+        const tutorialMessages = [
+            "¡Bienvenido! Este es tu panel de control principal.",
+            "Aquí puedes ver tus objetivos actuales y completarlos.",
+            "En la tienda puedes comprar mejoras con tus monedas.",
+            "Personaliza tu avatar y vehículo a tu gusto.",
+            "La música cambia dinámicamente según el estado del juego.",
+            "¡Ahora estás listo para jugar! ¡Diviértete!"
+        ];
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+            generateStoreItems();
+            generateAvatarOptions();
+            generateMusicTracks();
+            updateAllDisplays();
+            startGameTimer();
+        });
+
+        function initializeGame() {
+            updateGameState("Juego inicializado - Listo para empezar");
+            startRandomObjective();
+        }
+
+        function updateAllDisplays() {
+            document.getElementById('timeRemaining').textContent = gameState.timeRemaining;
+            document.getElementById('playerCurrency').textContent = gameState.playerCurrency;
+            document.getElementById('currencyDisplay').textContent = gameState.playerCurrency;
+            document.getElementById('objectivesCompleted').textContent = gameState.objectivesCompleted;
+            document.getElementById('totalPurchases').textContent = gameState.totalPurchases;
+            document.getElementById('tutorialStatus').textContent = 
+                'Tutorial completado: ' + (gameState.tutorialCompleted ? 'Sí' : 'No');
+        }
+
+        function startRandomObjective() {
+            const randomIndex = Math.floor(Math.random() * possibleObjectives.length);
+            gameState.currentObjective = {
+                text: possibleObjectives[randomIndex],
+                isCompleted: false,
+                progress: 0
+            };
+            
+            document.getElementById('currentObjectiveText').textContent = 
+                'Objetivo: ' + gameState.currentObjective.text;
+            document.getElementById('objectiveStatus').textContent = 'Estado: En progreso';
+            document.getElementById('objectiveProgress').style.width = '0%';
+            
+            updateGameState("Nuevo objetivo asignado: " + gameState.currentObjective.text);
+            showNotification("¡Nuevo objetivo asignado!");
+            
+            // Simular progreso automático
+            simulateObjectiveProgress();
+        }
+
+        function simulateObjectiveProgress() {
+            const progressInterval = setInterval(() => {
+                if (gameState.currentObjective && !gameState.currentObjective.isCompleted && !gameState.isPaused) {
+                    gameState.currentObjective.progress += Math.random() * 15;
+                    if (gameState.currentObjective.progress >= 100) {
+                        gameState.currentObjective.progress = 100;
+                        clearInterval(progressInterval);
+                    }
+                    document.getElementById('objectiveProgress').style.width = 
+                        gameState.currentObjective.progress + '%';
+                }
+            }, 1000);
+        }
+
+        function completeObjective() {
+            if (gameState.currentObjective && !gameState.currentObjective.isCompleted) {
+                gameState.currentObjective.isCompleted = true;
+                gameState.currentObjective.progress = 100;
+                gameState.objectivesCompleted++;
+                gameState.playerCurrency += 100; // Recompensa
+                
+                document.getElementById('objectiveStatus').textContent = 'Estado: ¡Completado!';
+                document.getElementById('objectiveProgress').style.width = '100%';
+                
+                updateAllDisplays();
+                updateGameState("Objetivo completado: " + gameState.currentObjective.text);
+                showNotification("¡Objetivo completado! +100 monedas");
+                
+                // Acelerar música por tensión
+                adjustMusicPitch(1.2);
+            }
+        }
+
+        function generateStoreItems() {
+            const container = document.getElementById('storeItems');
+            container.innerHTML = '';
+            
+            storeItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'store-item';
+                itemDiv.innerHTML = `
+                    <div class="store-item-info">
+                        <div class="store-item-name">${item.name}</div>
+                        <div class="store-item-type">${item.type}</div>
+                    </div>
+                    <div class="store-item-price">${item.price} 💰</div>
+                    <button class="btn btn-success" onclick="buyItem('${item.id}', ${item.price}, '${item.name}')">
+                        Comprar
+                    </button>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function buyItem(itemId, price, itemName) {
+            if (gameState.playerCurrency >= price) {
+                gameState.playerCurrency -= price;
+                gameState.totalPurchases++;
+                
+                // Lógica específica según el tipo de item
+                const item = storeItems.find(i => i.id === itemId);
+                if (item.type === 'Avatar') {
+                    unlockAvatar(itemId);
+                } else if (item.type === 'Resource') {
+                    addResource(itemId);
+                } else if (item.type === 'Vehicle') {
+                    unlockVehicle(itemId);
+                }
+                
+                updateAllDisplays();
+                updateGameState(`Compra exitosa: ${itemName}`);
+                showNotification(`¡Compraste ${itemName}!`);
+            } else {
+                showNotification("No tienes suficiente dinero", 'error');
+            }
+        }
+
+        function unlockAvatar(avatarId) {
+            showNotification(`¡Avatar desbloqueado: ${avatarId}!`);
+        }
+
+        function addResource(resourceId) {
+            if (resourceId === 'boost1') {
+                showNotification("¡Impulso de velocidad activado!");
+                adjustMusicPitch(1.5);
+            } else if (resourceId === 'shield1') {
+                showNotification("¡Escudo protector activado!");
+            } else if (resourceId === 'coins1') {
+                gameState.playerCurrency += 200;
+                showNotification("¡+200 monedas bonus!");
+            }
+        }
+
+        function unlockVehicle(vehicleId) {
+            showNotification(`¡Vehículo desbloqueado: ${vehicleId}!`);
+        }
+
+        function generateAvatarOptions() {
+            const container = document.getElementById('avatarSelection');
+            const avatars = ['👤', '🧙‍♂️', '🦸‍♀️', '🤖', '👨‍🚀', '🧝‍♀️'];
+            
+            avatars.forEach((avatar, index) => {
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'avatar-option';
+                if (index === 0) avatarDiv.classList.add('selected');
+                avatarDiv.innerHTML = avatar;
+                avatarDiv.onclick = () => selectAvatar(`avatar${index + 1}`, avatarDiv);
+                container.appendChild(avatarDiv);
+            });
+        }
+
+        function selectAvatar(avatarId, element) {
+            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            gameState.selectedAvatar = avatarId;
+            showNotification(`Avatar seleccionado: ${avatarId}`);
+        }
+
+        function selectVehicle(vehicleType) {
+            gameState.selectedVehicle = vehicleType;
+            showNotification(`Vehículo seleccionado: ${vehicleType}`);
+            updateGameState(`Vehículo cambiado a: ${vehicleType}`);
+        }
+
+        function loadPlayerCustomization() {
+            showNotification("Personalización cargada correctamente");
+            updateGameState(`Personalización aplicada - Avatar: ${gameState.selectedAvatar}, Vehículo: ${gameState.selectedVehicle}`);
+        }
+
+        function generateMusicTracks() {
+            const container = document.getElementById('musicTracks');
+            container.innerHTML = '';
+            
+            musicTracks.forEach((track, index) => {
+                const trackDiv = document.createElement('div');
+                trackDiv.className = 'music-track';
+                trackDiv.innerHTML = `
+                    <div class="track-info">
+                        <div class="track-name">${track.name}</div>
+                        <div class="track-status" id="trackStatus${index}">${track.status}</div>
+                    </div>
+                    <button class="btn btn-info" onclick="toggleTrack(${index})">
+                        ▶️ Play/Stop
+                    </button>
+                `;
+                container.appendChild(trackDiv);
+            });
+        }
+
+        function toggleTrack(trackIndex) {
+            const track = musicTracks[trackIndex];
+            const statusElement = document.getElementById(`trackStatus${trackIndex}`);
+            
+            if (track.status === 'Detenido') {
+                // Detener todas las otras pistas
+                musicTracks.forEach((t, i) => {
+                    t.status = 'Detenido';
+                    document.getElementById(`trackStatus${i}`).textContent = 'Detenido';
+                });
+                
+                track.status = 'Reproduciendo';
+                statusElement.textContent = 'Reproduciendo';
+                showNotification(`Reproduciendo: ${track.name}`);
+            } else {
+                track.status = 'Detenido';
+                statusElement.textContent = 'Detenido';
+                showNotification(`Detenido: ${track.name}`);
+            }
+        }
+
+        function updateMasterVolume(volume) {
+            showNotification(`Volumen ajustado a: ${volume}%`);
+        }
+
+        function adjustMusicPitch(targetPitch) {
+            gameState.musicPitch = targetPitch;
+            const pitchPercentage = ((targetPitch - 0.5) / 1.5) * 100;
+            document.getElementById('pitchIndicator').style.width = Math.max(0, Math.min(100, pitchPercentage)) + '%';
+            
+            // Simular retorno gradual al pitch normal
+            setTimeout(() => {
+                adjustMusicPitch(1.0);
+            }, 2000);
+        }
+
+        function playScenarioMusic(scenario) {
+            if (scenario === 'tension') {
+                adjustMusicPitch(1.3);
+                showNotification("🎵 Música de tensión activada");
+                updateGameState("Música de tensión - El juego se está intensificando");
+            } else if (scenario === 'calma') {
+                adjustMusicPitch(0.8);
+                showNotification("🎵 Música relajante activada");
+                updateGameState("Música relajante - Momento de calma");
+            }
+        }
+
+        function startTutorial() {
+            gameState.tutorialStep = 0;
+            gameState.tutorialCompleted = false;
+            document.getElementById('tutorialOverlay').style.display = 'block';
+            document.getElementById('tutorialPanel').style.display = 'block';
+            displayCurrentTutorialStep();
+            updateGameState("Tutorial iniciado");
+        }
+
+        function nextTutorialStep() {
+            gameState.tutorialStep++;
+            if (gameState.tutorialStep >= tutorialMessages.length) {
+                endTutorial();
+            } else {
+                displayCurrentTutorialStep();
+                updateTutorialProgress();
+            }
+        }
+
+        function displayCurrentTutorialStep() {
+            const content = document.getElementById('tutorialContent');
+            content.innerHTML = `
+                <h3>Paso ${gameState.tutorialStep + 1} de ${tutorialMessages.length}</h3>
+                <p>${tutorialMessages[gameState.tutorialStep]}</p>
+            `;
+            updateTutorialProgress();
+        }
+
+        function updateTutorialProgress() {
+            const progress = ((gameState.tutorialStep + 1) / tutorialMessages.length) * 100;
+            document.getElementById('tutorialProgress').style.width = progress + '%';
+        }
+
+        function endTutorial() {
+            gameState.tutorialCompleted = true;
+            closeTutorial();
+            showNotification("¡Tutorial completado!");
+            updateGameState("Tutorial completado exitosamente");
+            updateAllDisplays();
+        }
+
+        function closeTutorial() {
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            document.getElementById('tutorialPanel').style.display = 'none';
+        }
+
+        function toggleTutorial() {
+            const panel = document.getElementById('tutorialPanel');
+            const overlay = document.getElementById('tutorialOverlay');
+            
+            if (panel.style.display === 'block') {
+                closeTutorial();
+            } else {
+                startTutorial();
+            }
+        }
+
+        function startNewGame() {
+            gameState.isPlaying = true;
+            gameState.isPaused = false;
+            gameState.timeRemaining = 300;
+            updateGameState("¡Nuevo juego iniciado!");
+            showNotification("¡Juego iniciado! ¡Buena suerte!");
+            startRandomObjective();
+        }
+
+        function pauseGame() {
+            gameState.isPaused = !gameState.isPaused;
+            const status = gameState.isPaused ? "pausado" : "reanudado";
+            updateGameState(`Juego ${status}`);
+            showNotification(`Juego ${status}`);
+        }
+
+        function resetGame() {
+            gameState = {
+                timeRemaining: 300,
+                playerCurrency: 1000,
+                objectivesCompleted: 0,
+                totalPurchases: 0,
+                currentObjective: null,
+                isPlaying: false,
+                isPaused: false,
+                musicPitch: 1.0,
+                tutorialStep: 0,
+                tutorialCompleted: false,
+                selectedAvatar: 'avatar1',
+                selectedVehicle: 'deportivo'
+            };
+            
+            updateAllDisplays();
+            updateGameState("Juego reiniciado completamente");
+            showNotification("¡Juego reiniciado!");
+            startRandomObjective();
+        }
+
+        function refreshStore() {
+            generateStoreItems();
+            showNotification("¡Tienda actualizada!");
+        }
+
+        function startGameTimer() {
+            setInterval(() => {
+                if (gameState.isPlaying && !gameState.isPaused && gameState.timeRemaining > 0) {
+                    gameState.timeRemaining--;
+                    updateAllDisplays();
+                    
+                    // Acelerar música cuando queda poco tiempo
+                    if (gameState.timeRemaining <= 30 && gameState.timeRemaining % 10 === 0) {
+                        adjustMusicPitch(1.2 + (30 - gameState.timeRemaining) * 0.02);
+                    }
+                    
+                    if (gameState.timeRemaining === 0) {
+                        updateGameState("¡Tiempo agotado!");
+                        showNotification("⏰ ¡Se acabó el tiempo!");
+                        gameState.isPlaying = false;
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateGameState(message) {
+            document.getElementById('gameState').textContent = message;
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification show ${type}`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Efectos sonoros simulados
+        function playSound(soundType) {
+            // En una implementación real, aquí se reproducirían los sonidos
+            console.log(`Reproduciendo sonido: ${soundType}`);
+        }
+
+        // Simulación de eventos del juego
+        setInterval(() => {
+            if (gameState.isPlaying && !gameState.isPaused) {
+                // Eventos aleatorios
+                const randomEvent = Math.random();
+                if (randomEvent < 0.02) { // 2% de probabilidad cada segundo
+                    const events = [
+                        () => {
+                            gameState.playerCurrency += 50;
+                            showNotification("¡Encontraste 50 monedas!");
+                            updateAllDisplays();
+                        },
+                        () => {
+                            playScenarioMusic('tension');
+                            showNotification("⚡ ¡Situación de tensión!");
+                        },
+                        () => {
+                            adjustMusicPitch(0.7);
+                            showNotification("🌟 ¡Momento épico!");
+                        }
+                    ];
+                    
+                    const randomEventIndex = Math.floor(Math.random() * events.length);
+                    events[randomEventIndex]();
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
