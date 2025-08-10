@@ -1,47 +1,65 @@
-{
-   "person": [
-       {
-           "firstName": "Tommy",
-           "lastName": "Kent",
-           "job": "Damel",
-           "roll": "fb://profile?id=467400929948259",
-           "image": "https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/11073052_10152746723135918_6035256168829200954_n.jpg?oh=d117761b7431007ea5aac96f353e10dd&oe=55AB38ED&__gda__=1433666811_35ef529fefb6db2d762980c2d1be0a35"
-        },
-        {
-           "job": "Damel",
-            "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/11073052_10152746723135918_6035256168829200954_n.jpg?oh=d117761b7431007ea5aac96f353e10dd&oe=55AB38ED&__gda__=1433666811_35ef529fefb6db2d762980c2d1be0a35"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Game Web Interface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Unity Game Web Interface</h1>
 
-       },
-       {
-           "firstName": "Bruce",
-           "lastName": "Wayne",
-           "job": "Chris T Stuart",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11069909_10152737326225918_3861093348268245190_n.jpg?oh=14635b7a0e64eedcae4804d9df913fb3&oe=55B47C53&__gda__=1437309740_1d5ba2456577656a90340162223435ba"
-       },
-       {
-           "firstName": "Chris \nStuart",
-           "lastName": "Parker",
-           "job": "Tu",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://scontent-mia.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/11050166_10152726698295918_3351733604090035574_n.jpg?oh=153861875d99bf1ae57c59aba4b4aa17&oe=55B6484F",
-           "str": " "
-       },
-       {
-           "firstName": "Chris \nStuart",
-           "lastName": "Parker",
-           "job": "Julian",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://scontent-mia.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/11050166_10152726698295918_3351733604090035574_n.jpg?oh=153861875d99bf1ae57c59aba4b4aa17&oe=55B6484F",
-           "str": " "
-       },
-       {
-           "firstName": "Bruce",
-           "lastName": "Wayne",
-           "job": "Tommy",
-           "roll": "twitter://user?screen_name=stuarttommy",
-           "image": "https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11069909_10152737326225918_3861093348268245190_n.jpg?oh=14635b7a0e64eedcae4804d9df913fb3&oe=55B47C53&__gda__=1437309740_1d5ba2456577656a90340162223435ba"
-       }
-         ]
-}
+    <!-- Objective Section -->
+    <section id="objective-section">
+        <h2>Current Objective</h2>
+        <p id="objective-text">Press "Start Scenario" to begin.</p>
+        <button id="complete-objective-btn" disabled>Complete Objective</button>
+    </section>
+
+    <!-- Timer Display -->
+    <section id="timer-section">
+        <h2>Time Remaining: <span id="time-remaining">--</span> s</h2>
+    </section>
+
+    <!-- Store Section -->
+    <section id="store-section">
+        <h2>Store</h2>
+        <p>Currency: <span id="player-currency">0</span></p>
+        <div id="store-items"></div>
+    </section>
+
+    <!-- Customization Section -->
+    <section id="customization-section">
+        <h2>Customization</h2>
+        <div class="preview">
+            <div>
+                <h3>Avatar</h3>
+                <img id="avatar-preview" src="" alt="Avatar Preview" />
+            </div>
+            <div>
+                <h3>Vehicle</h3>
+                <img id="vehicle-preview" src="" alt="Vehicle Preview" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutorial Panel -->
+    <div id="tutorial-panel" class="hidden">
+        <div class="tutorial-content">
+            <p id="tutorial-text"></p>
+            <button id="next-tutorial-btn">Next</button>
+        </div>
+    </div>
+
+    <!-- Control Buttons -->
+    <section id="controls-section">
+        <button id="start-scenario-btn">Start Scenario</button>
+    </section>
+
+    <!-- Audio Elements for Music -->
+    <audio id="music-audio" loop></audio>
+
+    <script src="main.js"></script>
+</body>
+</html>
