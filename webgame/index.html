@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Juego (Web) - Objetivos, Tienda y Personalización</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <h1>Metro Quest (Web)</h1>
+      <div class="hud">
+        <div class="hud-item"><span class="label">Tiempo:</span> <span id="timeRemaining">--</span></div>
+        <div class="hud-item"><span class="label">Monedas:</span> <span id="playerCurrency">0</span></div>
+        <div class="hud-item objective"><span class="label">Objetivo:</span> <span id="objectiveText">(sin objetivo)</span></div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="column">
+        <div class="card">
+          <h2>Escenario</h2>
+          <div class="controls">
+            <button id="startScenarioBtn" class="primary">Iniciar escenario</button>
+            <button id="completeObjectiveBtn">Completar objetivo</button>
+            <button id="resetDataBtn" class="danger">Reiniciar guardado</button>
+          </div>
+          <div id="scenarioStatus" class="status"></div>
+        </div>
+
+        <div class="card">
+          <h2>Personalización</h2>
+          <div class="subsection">
+            <h3>Avatares</h3>
+            <div id="avatarGrid" class="select-grid"></div>
+          </div>
+          <div class="subsection">
+            <h3>Vehículos</h3>
+            <div id="vehicleGrid" class="select-grid"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Música</h2>
+          <div class="music-controls">
+            <button id="playMusicBtn" class="primary">Reproducir</button>
+            <button id="stopMusicBtn">Detener</button>
+            <label class="inline"><input type="checkbox" id="muteToggle" /> Silencio</label>
+            <div class="note">La música acelera cuando queda poco tiempo.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="column">
+        <div class="card">
+          <h2>Tienda</h2>
+          <div id="storeList" class="store-list"></div>
+        </div>
+
+        <div class="card">
+          <h2>Recursos</h2>
+          <ul id="resourceList" class="resource-list"></ul>
+        </div>
+
+        <div class="card info">
+          <h2>Cómo jugar</h2>
+          <ol>
+            <li>Pulsa "Iniciar escenario". Se elegirá un objetivo aleatorio y comenzará la cuenta atrás.</li>
+            <li>Compra artículos en la tienda para desbloquear avatares, vehículos o recursos.</li>
+            <li>Selecciona tu avatar y vehículo (si están desbloqueados).</li>
+            <li>Completa el objetivo antes de que se acabe el tiempo.</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>Inspirado en los sistemas de Unity: Objetivos, Tienda, Personalización, Música dinámica y Tutorial.</span>
+    </footer>
+  </div>
+
+  <div id="tutorialPanel" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="overlay-card">
+      <div class="overlay-body">
+        <p id="tutorialText">Bienvenido</p>
+      </div>
+      <div class="overlay-actions">
+        <button id="nextButton" class="primary">Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
